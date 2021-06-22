@@ -1,0 +1,107 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
+<div class="page-content container note-has-grid">
+  <ul class="nav nav-pills p-3 bg-white mb-3 rounded-pill align-items-center">
+    <li class="nav-item mx-auto">
+      <a class="nav-link btn-primary rounded-pill d-flex align-items-center px-3" (click)="onOpenModal(null, 'add')" id="add-notes"> <i class="icon-note m-1"></i><span class="d-none d-md-block font-14">Add Notes</span></a>
+    </li>
+  </ul>
+  <div class="container" id="main-container">
+    <div class="row">
+      <div *ngFor="let note of rootObject" class="col-md-4 single-note-item all-category" style="">
+        <div class="card card-body">
+          <div class="note-content">
+            <div>{{note?.text}}</div>
+          </div>
+          <div class="d-flex align-items-center">
+          <div class="card-body">
+            <div class="float-right btn-group btn-group-sm">
+              <a href="#" (click)="onOpenModal(note, 'edit')" class="btn btn-primary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+              <a href="#" (click)="onOpenModal(note, 'delete')" class="btn btn-secondary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-times"></i></a>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Add notes -->
+  <div class="modal fade" id="addNoteModal" tabindex="-1" role="dialog" aria-labelledby="addNoteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content border-0">
+        <div class="modal-header bg-info text-white">
+          <h5 class="modal-title text-white" id="addNoteModalLabel">Add Notes</h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #addForm="ngForm" (ngSubmit)="addNote(addForm)">
+            <div class="form-group">
+                      <label for="note">Note Description</label>
+                      <textarea type="text" ngModel name="text" class="form-control" id="note" placeholder="Description" rows="3"></textarea>
+<!--                      <input type="text" ngModel name="text" class="form-control" id="note" placeholder="Description" required>-->
+          </div>
+        <div class="modal-footer">
+          <button type="button" id="add-note-form" class="btn btn-danger" data-dismiss="modal">Discard</button>
+          <button [disabled]="addForm.invalid" type="submit" class="btn btn-info">Add</button>
+        </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="updateNoteModal" tabindex="-1" role="dialog" aria-labelledby="updateNoteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content border-0">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title text-white" id="updateNoteModalLabel">Edit Info</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #editForm="ngForm">
+          <div class="form-group">
+            <!--            <label for="carId">ID</label>-->
+            <!--            <input type="text" ngModel="{{editCar?.carId}}" name="carId" class="form-control" id="carId" placeholder="ID">-->
+            <input type="hidden" ngModel="{{editNote?.id}}" name="id" class="form-control" id="id" placeholder="Number">
+          </div>
+          <div class="form-group">
+            <label for="note">Note Description</label>
+            <textarea type="text" ngModel="{{editNote?.text}}" name="text" class="form-control" id="note" placeholder="Description" rows="3"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="" data-dismiss="modal" class="btn btn-danger">Close</button>
+            <button (click)="updateNoteById(editNote?.id,editForm.value)" data-dismiss="modal" class="btn btn-info" >Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteNoteModal" tabindex="-1" role="dialog" aria-labelledby="deleteNoteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteNoteModalLabel">Delete Note</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete note?</p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+            <button (click)="deleteNoteById(deleteNote?.id)" class="btn btn-info" data-dismiss="modal">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
